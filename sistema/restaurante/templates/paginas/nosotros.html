@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %} Nosotros {% endblock %}
+
+{% block contenido %} 
+
+<h1>Sobre Nosotros</h1>
+
+<div class="container mt-5">
+    <h1>Sobre Nosotros</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card transparent">
+                <div class="card-body">
+                    <h5 class="card-title">Nuestra Misión</h5>
+                    <p class="card-text">Bienvenidos a Pueblito Mágico Tepotzotlán, un restaurante que celebra la esencia de la gastronomía mexicana con un enfoque en la tradición, la innovación y la identidad cultural.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card transparent">
+                <div class="card-body">
+                    <h5 class="card-title">Nuestra Cocina</h5>
+                    <p class="card-text">Nuestra cocina rinde homenaje a las recetas ancestrales transmitidas de generación en generación, combinándolas con un toque contemporáneo para sorprender a nuestros visitantes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card transparent">
+                <div class="card-body">
+                    <h5 class="card-title">Nuestra Promesa</h5>
+                    <p class="card-text">En Pueblito Mágico Tepotzotlán, más que un restaurante, somos un punto de encuentro para quienes buscan deleitarse con la gastronomía mexicana en un ambiente cálido y acogedor.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+
+{% if messages %}
+    <div class="alert alert-success">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+<div class="contact-form">
+    <h2>Contáctanos</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+    </form>
+</div>
+
+{% endblock %}

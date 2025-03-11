@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Menú</h2>
+
+{% for platillo in platillos %}
+    <div>
+        <h3>{{ platillo.nombre }}</h3>
+        <p>{{ platillo.descripcion }}</p>
+        <p>Precio: ${{ platillo.precio }}</p>
+
+        <form action="{% url 'agregar_al_carrito' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="platillo_id" value="{{ platillo.id }}">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" name="cantidad" value="1" min="1">
+            <button type="submit">Agregar al Carrito</button>
+        </form>
+    </div>
+{% endfor %}
+
+<a href="{% url 'ver_carrito' %}"><button>Ver Carrito</button></a>
+{% endblock %}
+
+

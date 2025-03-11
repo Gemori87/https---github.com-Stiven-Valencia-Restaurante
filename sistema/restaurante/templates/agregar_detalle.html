@@ -1,0 +1,6 @@
+<h2>Agregar Detalle al Pedido {{ pedido.codigo }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ detalle_form.as_p }}
+    <button type="submit">Agregar Detalle</button>
+</form>

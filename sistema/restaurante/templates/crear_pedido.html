@@ -1,0 +1,23 @@
+<h1>Esta es la página de crear pedido</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="cliente_id">Cliente:</label>
+    <select name="cliente_id" id="cliente_id">
+        {% for cliente in clientes %}
+            <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <h3>Platillos:</h3>
+    {% for platillo in platillos %}
+        <div>
+            <label>{{ platillo.nombre }} - ${{ platillo.precio }}</label>
+            <input type="number" name="cantidades" value="1" min="1" id="cantidad_{{ platillo.id }}" />
+            <input type="checkbox" name="platillos" value="{{ platillo.id }}" id="platillo_{{ platillo.id }}" />
+        </div>
+    {% endfor %}
+    
+    <button type="submit">Crear Pedido</button>
+</form>

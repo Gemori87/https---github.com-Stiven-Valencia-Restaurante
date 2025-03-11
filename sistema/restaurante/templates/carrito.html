@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Carrito de Compras</h2>
+
+{% if carrito %}
+    <table>
+        <tr>
+            <th>Platillo</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for item in carrito %}
+        <tr>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>${{ item.precio }}</td>
+            <td>${{ item.precio|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3>Total: ${{ total }}</h3>
+    <a href="{% url 'crear_pedido' %}"><button>Confirmar Pedido</button></a>
+{% else %}
+    <p>El carrito está vacío.</p>
+{% endif %}
+
+{% endblock %}

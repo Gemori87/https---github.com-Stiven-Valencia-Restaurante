@@ -1,0 +1,24 @@
+<h3>Detalles del Pedido {{ pedido.codigo }}</h3>
+<p>Cliente: {{ pedido.cliente.nombre }}</p>
+<p>Total: ${{ pedido.total }}</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Platillo</th>
+            <th>Cantidad</th>
+            <th>Valor Unitario</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detalle in detalles %}
+        <tr>
+            <td>{{ detalle.platillo.nombre }}</td>
+            <td>{{ detalle.cantidad }}</td>
+            <td>${{ detalle.valor_unitario }}</td>
+            <td>${{ detalle.subtotal }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

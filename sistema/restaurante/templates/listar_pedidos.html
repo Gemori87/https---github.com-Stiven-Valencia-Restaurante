@@ -1,0 +1,22 @@
+<table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Cliente</th>
+            <th>Total</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+        <tr>
+            <td>{{ pedido.codigo }}</td>
+            <td>{{ pedido.cliente.nombre }}</td>
+            <td>${{ pedido.total }}</td>
+            <td>{{ pedido.fecha_hora }}</td>
+            <td><a href="{% url 'ver_detalles_pedido' pedido.id %}">Ver Detalles</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
