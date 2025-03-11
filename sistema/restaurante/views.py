@@ -183,29 +183,29 @@ def listar_pedidos(request):
 
 def ver_detalles_pedido(request, id):
     pedido = Pedido.objects.get(id=id)
-    detalles = pedido.detalles.all()  # Obtener los detalles del pedido
+    detalles = pedido.detalles.all()  
     return render(request, 'ver_detalles_pedido.html', {'pedido': pedido, 'detalles': detalles})
 
 @login_required
 def agregar_al_carrito(request):
     if "carrito" not in request.session:
-        request.session["carrito"] = []  # Inicializa el carrito si no existe
+        request.session["carrito"] = []  
 
     if request.method == "POST":
         platillo_id = request.POST.get("platillo_id")
         cantidad = int(request.POST.get("cantidad", 1))
 
-        platillo = get_object_or_404(Platillo, id=platillo_id)
+        platillo = get_object_or_404(Platillos, id=platillo_id)
 
         carrito = request.session["carrito"]
 
-        # Verificar si ya está en el carrito
+        
         for item in carrito:
             if item["platillo_id"] == platillo_id:
                 item["cantidad"] += cantidad
                 break
         else:
-            # Agregar nuevo platillo
+           
             carrito.append({
                 "platillo_id": platillo_id,
                 "nombre": platillo.nombre,
@@ -213,7 +213,7 @@ def agregar_al_carrito(request):
                 "cantidad": cantidad
             })
 
-        request.session["carrito"] = carrito  # Guardar en sesión
+        request.session["carrito"] = carrito  
         messages.success(request, "Platillo agregado al carrito.")
         return redirect("ver_carrito")
 
