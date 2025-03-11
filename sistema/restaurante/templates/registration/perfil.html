@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil de Usuario{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <h2>Perfil de Usuario</h2>
+    <p><strong>Nombre:</strong> {{ user.username }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+<p><strong>Número de Teléfono:</strong> <span id="phone-number">{{ user.profile.phone_number }}</span></p>
+<div class="text-end">
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="btn btn-warning" type="submit">Logout</button>
+    </form>
+</div>
+<form method="POST" action="{% url 'perfil' %}"> 
+    {% csrf_token %}
+    <input type="text" id="phone-input" name="phone_number" placeholder="Ingrese su número de teléfono" />
+    <button id="add-phone" class="btn btn-primary" name="add_phone">Añadir Número de Teléfono</button>
+</form>
+
+
+
+
+</form>
+
+
+</form>
+
+
+
+    <h3>Historial de Pedidos</h3>
+    <ul>
+        {# Aquí se puede iterar sobre el historial de pedidos si se tiene esta información #}
+    </ul>
+</div>
+{% endblock %}

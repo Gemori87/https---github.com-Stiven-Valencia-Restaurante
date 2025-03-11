@@ -1,0 +1,35 @@
+<form method="POST" enctype="multipart/form-data" 
+      action="{% if platillo %}{% url 'editar_platillo' platillo.id %}{% else %}{% url 'agregar_platillo' %}{% endif %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre del platillo</label>
+        <input type="text" 
+               name="nombre"  
+               class="form-control" 
+               id="nombre" 
+               value="{{ platillo.platillo|default:'' }}"  
+               aria-describedby="helpId" 
+               placeholder="Introduce el nombre del platillo" />
+        <small id="helpId" class="form-text text-muted">Escribe el nombre del platillo que deseas agregar.</small>
+    </div>
+
+    <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción del platillo</label>
+        <textarea name="descripcion" class="form-control" id="descripcion" rows="3" placeholder="Escribe una breve descripción del platillo">{{ platillo.descripcion|default:'' }}</textarea>
+
+        <small id="helpId" class="form-text text-muted">Una breve descripción sobre el platillo.</small>
+    </div>
+
+    <div class="mb-3">
+        <label for="imagen" class="form-label">Imagen del platillo</label>
+        <input type="file" class="form-control" id="imagen" name="imagen" />
+        <small id="helpId" class="form-text text-muted">Sube una imagen representativa del platillo.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        {% if platillo %} Actualizar Platillo {% else %} Crear Platillo {% endif %}
+    </button>
+</form>
+
+

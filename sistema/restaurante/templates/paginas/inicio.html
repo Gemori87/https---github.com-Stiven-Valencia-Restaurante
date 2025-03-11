@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %} inicio {% endblock %}
+
+{% load static %}
+{% block contenido %} 
+
+<div class="p-5 bg-light transparent">
+    <div class="container">
+        <h1 class="display-3 ">Bienvenido Pueblito Mágico Tepotzotlán </h1>
+        <p class="lead">Empieza tu experiencia</p>
+        <hr class="my-2">
+        
+        <p class="lead">Descubre nuestros deliciosos platillos, preparados con los mejores ingredientes y con un toque especial que solo nosotros ofrecemos.</p>
+        <h2>Platillo destacado de la semana</h2>
+        <img src="/media/imagenes/Pollo Toluqueño.webp" alt="Platillo destacado" class="img-fluid" style="width: 20%;">
+        
+        <h3>Pollo Toluqueño</h3>
+        <blockquote>
+            <p>"1 pechuga de pollo
+                2 ctas consomé en polvo
+                2-3 jitomates
+                1 cta aceite
+                1/4 cebolla
+                1 diente ajo
+                sal
+                pimienta
+                queso gouda o manchego suficiente
+                chipotle adobado (opcional)
+                </p>
+        </blockquote>
+        
+        <p class="lead">Nuestro restaurante se enorgullece de ofrecer una experiencia única, combinando tradición y modernidad en cada platillo.</p>
+        
+        <a href="{% url 'platillos' %}" class="btn btn-primary btn-lg" role="button">Empezar</a>
+        <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">Iniciar sesión </a>
+    </div>
+</div>
+
+{% endblock %}

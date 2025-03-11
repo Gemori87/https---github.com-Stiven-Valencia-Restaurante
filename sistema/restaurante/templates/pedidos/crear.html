@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %} Crear Pedido {% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <h2>Crear un Nuevo Pedido</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="identificacion_persona">Identificación de la Persona:</label>
+            <input type="text" class="form-control" id="identificacion_persona" name="identificacion_persona" required>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="total">Total:</label>
+            <input type="number" class="form-control" id="total" name="total" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="platillos">Seleccionar Platillos:</label>
+            <select multiple class="form-control" id="platillos" name="platillos">
+                {% for platillo in platillos %}
+                <option value="{{ platillo.id }}">{{ platillo.platillo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Pedido</button>
+    </form>
+</div>
+{% endblock %}
