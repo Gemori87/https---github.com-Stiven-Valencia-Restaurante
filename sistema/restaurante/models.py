@@ -10,7 +10,7 @@ class Profile(models.Model):
 
 class Platillos(models.Model):
     id = models.AutoField(primary_key=True)
-    platillo = models.CharField(max_length=100, verbose_name='Título')
+    nombre = models.CharField(max_length=100, verbose_name='Título')
     imagen = models.ImageField(upload_to='imagenes/', verbose_name="Imagen", null=True)
     descripcion = models.TextField(verbose_name="Descripción", null=True)
     activo = models.BooleanField(default=True, verbose_name="Activo")
@@ -23,9 +23,9 @@ class Platillos(models.Model):
         super().delete()
 
 class Pedido(models.Model):
-    codigo_pedido = models.AutoField(primary_key=True)
+    codigo = models.AutoField(primary_key=True)
     fecha_hora = models.DateTimeField(auto_now_add=True)
-    identificacion_persona = models.CharField(max_length=50)
+    cliente_id = models.CharField(max_length=50)
     descripcion = models.TextField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
 

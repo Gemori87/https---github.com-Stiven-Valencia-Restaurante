@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
 from .models import Pedido, DetallePedido  # Importar los modelos de Pedido y DetallePedido
 from django.contrib.auth import logout
-
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
 from .forms import RegistroUsuarioForm, ContactForm
 
 def logout_view(request):
