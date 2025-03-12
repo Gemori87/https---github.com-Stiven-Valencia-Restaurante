@@ -1,20 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %} Editar platillo {% endblock %}
+{% block title %}Editar Platillo{% endblock %}
 
-{% block contenido %} 
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Platillo</h2>
 
-<div class="card">
-    <div class="card-header">Editar informacion del platillo</div>
-    <div class="card-body">
-        <h4 class="card-title">Datos del platillo</h4>
+    <!-- Mostrar mensajes de éxito -->
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Formulario de edición del platillo -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
         
-         {% include 'platillos/form.html' %}
+        <div class="form-group">
+            <label for="nombre" class="font-weight-bold">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ platillo.nombre }}" required>
+        </div>
 
-    </div>
-    <div class="card-footer text-muted"></div>
+        <div class="form-group">
+            <label for="imagen" class="font-weight-bold">Imagen:</label>
+            <input type="file" class="form-control" id="imagen" name="imagen">
+            {% if platillo.imagen %}
+                <div class="mt-2">
+                    <img src="{{ platillo.imagen.url }}" alt="Imagen actual" style="max-width: 100px;">
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion" class="font-weight-bold">Descripción:</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" required>{{ platillo.descripcion }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="precio" class="font-weight-bold">Precio:</label>
+            <input type="number" class="form-control" id="precio" name="precio" step="0.01" value="{{ platillo.precio }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Actualizar Platillo</button>
+    </form>
 </div>
-
-
 {% endblock %}
+
     

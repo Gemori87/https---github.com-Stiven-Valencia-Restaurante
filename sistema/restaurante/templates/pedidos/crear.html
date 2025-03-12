@@ -1,33 +1,107 @@
 {% extends "base.html" %}
 
-{% block title %} Crear Pedido {% endblock %}
+{% block title %}Crear Pedido{% endblock %}
 
 {% block contenido %}
 <div class="container mt-5">
-    <h2>Crear un Nuevo Pedido</h2>
+    <h2 class="text-center mb-4">Crear un Nuevo Pedido</h2>
     <form method="POST">
         {% csrf_token %}
+
+        <!-- Seleccionar Cliente -->
         <div class="form-group">
-            <label for="identificacion_persona">Identificación de la Persona:</label>
-            <input type="text" class="form-control" id="identificacion_persona" name="identificacion_persona" required>
-        </div>
-        <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="total">Total:</label>
-            <input type="number" class="form-control" id="total" name="total" step="0.01" required>
-        </div>
-        <div class="form-group">
-            <label for="platillos">Seleccionar Platillos:</label>
-            <select multiple class="form-control" id="platillos" name="platillos">
-                {% for platillo in platillos %}
-                <option value="{{ platillo.id }}">{{ platillo.platillo }}</option>
+            <label for="cliente_id" class="font-weight-bold">Seleccionar Cliente:</label>
+            <select class="form-control" id="cliente_id" name="cliente_id" required>
+                <option value="">-- Seleccione un Cliente --</option>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
                 {% endfor %}
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Crear Pedido</button>
+
+        <!-- Descripción del Pedido -->
+        <div class="form-group">
+            <label for="descripcion" class="font-weight-bold">Descripción del Pedido:</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="Detalles adicionales sobre el pedido" required></textarea>
+        </div>
+
+        <!-- Total del Pedido (Este campo es solo para mostrar el total calculado) -->
+        <div class="form-group">
+            <label for="total" class="font-weight-bold">Total (MXN):</label>
+            <input type="number" class="form-control" id="total" name="total" step="0.01" readonly>
+        </div>
+
+        <!-- Selección de Platillos -->
+        <div class="form-group">
+            <label class="font-weight-bold">Seleccionar Platillos:</label>
+            <div class="row">
+                {% for platillo in platillos %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            {% if platillo.imagen %}
+                                <img src="{{ platillo.imagen.url }}" class="card-img-top" alt="{{ platillo.nombre }}">
+                            {% else %}
+                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen no disponible">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ platillo.nombre }}</h5>
+                                <p class="card-text">{{ platillo.descripcion }}</p>
+                                <p class="font-weight-bold">Precio: ${{ platillo.precio }}</p>
+                                <div class="form-group">
+                                    <label for="cantidad_{{ platillo.id }}">Cantidad:</label>
+                                    <input type="number" class="form-control cantidad" id="cantidad_{{ platillo.id }}" name="cantidad_{{ platillo.id }}" min="0" value="0" data-precio="{{ platillo.precio }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="valor_unitario_{{ platillo.id }}">Precio Unitario:</label>
+                                    <input type="number" class="form-control" id="valor_unitario_{{ platillo.id }}" name="valor_unitario_{{ platillo.id }}" value="{{ platillo.precio }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Botón para Crear Pedido -->
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-success btn-lg mt-4">Crear Pedido</button>
+        </div>
     </form>
 </div>
+
+<!-- Script para calcular el total automáticamente -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Inicializar el total
+        let totalPedido = 0;
+
+        // Función para actualizar el total
+        function actualizarTotal() {
+            totalPedido = 0;
+
+            // Obtener todos los inputs de cantidad
+            document.querySelectorAll('.cantidad').forEach(function(input) {
+                let cantidad = parseInt(input.value) || 0;
+                let precioUnitario = parseFloat(input.dataset.precio) || 0;
+                let subtotal = cantidad * precioUnitario;
+
+                // Solo agregar al total si la cantidad es mayor que 0
+                if (cantidad > 0) {
+                    totalPedido += subtotal;
+                }
+            });
+
+            // Mostrar el total actualizado en el campo correspondiente
+            document.getElementById('total').value = totalPedido.toFixed(2);
+        }
+
+        // Escuchar cambios en las cantidades
+        document.querySelectorAll('.cantidad').forEach(function(input) {
+            input.addEventListener('input', actualizarTotal);
+        });
+
+        // Inicializar el total al cargar la página
+        actualizarTotal();
+    });
+</script>
 {% endblock %}

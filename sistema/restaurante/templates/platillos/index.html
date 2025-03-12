@@ -21,6 +21,7 @@
                         <th scope="col">Título</th>
                         <th scope="col">Imagen</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -28,15 +29,16 @@
                     {% for platillo in platillos %}
                     <tr>
                         <td>{{ platillo.id }}</td>
-                        <td>{{ platillo.platillo }}</td>
+                        <td>{{ platillo.nombre }}</td> <!-- Aquí cambias 'platillo' por 'nombre' -->
                         <td>
                             {% if platillo.imagen %}
-                                <img src="{{ platillo.imagen.url }}" alt="Imagen de {{ platillo.platillo }}" width="50">
+                                <img src="{{ platillo.imagen.url }}" alt="Imagen de {{ platillo.nombre }}" width="50">
                             {% else %}
                                 No disponible
                             {% endif %}
                         </td>
                         <td>{{ platillo.descripcion }}</td>
+                        <td>{{ platillo.precio }}</td> <!-- Muestra el precio -->
                         <td>
                             <a class="btn btn-info" href="{% url 'editar_platillo' platillo.id %}" role="button">
                                 Editar
@@ -55,7 +57,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center">No hay platillos disponibles.</td>
+                        <td colspan="6" class="text-center">No hay platillos disponibles.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -66,4 +68,3 @@
 </div>
 
 {% endblock %}
-

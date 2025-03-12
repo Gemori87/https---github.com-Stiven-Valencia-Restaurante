@@ -27,7 +27,7 @@ urlpatterns = [
     path('platillos/eliminar/<int:id>/', views.eliminar_platillo, name='eliminar_platillo'),
     path('platillos/ocultar/<int:id>/', views.ocultar_platillo, name='ocultar_platillo'),
     path('platillos/mostrar/<int:id>/', views.mostrar_platillo, name='mostrar_platillo'),  
-
+    path('crear-pedido/', views.crear_pedido, name='crear_pedido'),
     
     path('pedidos/', listar_pedidos, name='listar_pedidos'),  # Ruta para listar pedidos
     path('pedidos/crear/', crear_pedido, name='crear_pedido'),  # Ruta para crear un nuevo pedido

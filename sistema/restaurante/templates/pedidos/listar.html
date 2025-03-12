@@ -9,18 +9,20 @@
         <thead>
             <tr>
                 <th>Código de Pedido</th>
-                <th>Fecha y Hora</th>
-                <th>Identificación</th>
+                <th>Cliente</th>
+                <th>Descripción</th>
                 <th>Total</th>
+                <th>Fecha y Hora</th>
             </tr>
         </thead>
         <tbody>
             {% for pedido in pedidos %}
             <tr>
-                <td>{{ pedido.codigo_pedido }}</td>
-                <td>{{ pedido.fecha_hora }}</td>
-                <td>{{ pedido.identificacion_persona }}</td>
-                <td>{{ pedido.total }}</td>
+                <td>{{ pedido.codigo }}</td>
+                    <td>{{ pedido.cliente_id }}</td>
+                    <td>{{ pedido.descripcion }}</td>
+                    <td>{{ pedido.total }}</td>
+                    <td>{{ pedido.fecha_hora|date:"d/m/Y H:i" }}</td>
             </tr>
             {% endfor %}
         </tbody>

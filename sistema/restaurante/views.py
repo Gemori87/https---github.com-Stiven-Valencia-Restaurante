@@ -14,22 +14,26 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Platillos  # Importa el modelo Platillos
+from .models import Platillos, Cliente
+
+
+
+
 
 def crear_pedido(request):
     if request.method == 'POST':
-        identificacion_persona = request.POST.get('identificacion_persona')
+        cliente_id = request.POST.get('cliente_id')
         descripcion = request.POST.get('descripcion')
-        total = request.POST.get('total')
+        total = float(request.POST.get('total'))  # Total calculado desde el formulario
 
-        nuevo_pedido = Pedido(identificacion_persona=identificacion_persona, descripcion=descripcion, total=total)
+        nuevo_pedido = Pedido(cliente_id=cliente_id, descripcion=descripcion, total=total)
         nuevo_pedido.save()
 
         # Guardar detalles del pedido
         for platillo_id in request.POST.getlist('platillos'):
-            cantidad = request.POST.get(f'cantidad_{platillo_id}')
-            valor_unitario = request.POST.get(f'valor_unitario_{platillo_id}')
-            subtotal = int(cantidad) * float(valor_unitario)
+            cantidad = int(request.POST.get(f'cantidad_{platillo_id}'))
+            valor_unitario = float(request.POST.get(f'valor_unitario_{platillo_id}'))
+            subtotal = cantidad * valor_unitario
 
             detalle = DetallePedido(pedido=nuevo_pedido, codigo_platillo_id=platillo_id, cantidad=cantidad, valor_unitario=valor_unitario, subtotal=subtotal)
             detalle.save()
@@ -38,7 +42,10 @@ def crear_pedido(request):
         return redirect('inicio')  # Redirigir a la página de inicio
 
     platillos = Platillos.objects.all()  # Obtener todos los platillos para el formulario
-    return render(request, 'pedidos/crear.html', {'platillos': platillos})
+    clientes = Cliente.objects.all()  # Obtener todos los clientes para el formulario
+    return render(request, 'pedidos/crear.html', {'platillos': platillos, 'clientes': clientes})
+
+
 
 def listar_pedidos(request):
     pedidos = Pedido.objects.all()  # Obtener todos los pedidos
@@ -90,6 +97,7 @@ def agregar_platillo(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         imagen = request.FILES.get('imagen')
+        precio = request.POST.get('precio')
         descripcion = request.POST.get('descripcion')
 
         if not nombre:
@@ -98,11 +106,13 @@ def agregar_platillo(request):
         if not descripcion:
             messages.error(request, "La descripción del platillo es obligatoria.")
             return redirect('agregar_platillo')
-        
+        if not descripcion:
+            messages.error(request, "El precio del platillo es obligatorio.")
+            return redirect('agregar_platillo')
         if not imagen:
             messages.warning(request, "No se ha proporcionado una imagen para el platillo.")
 
-        nuevo_platillo = Platillos(platillo=nombre, imagen=imagen, descripcion=descripcion)
+        nuevo_platillo = Platillos(platillo=nombre, imagen=imagen, precio=precio, descripcion=descripcion)
         nuevo_platillo.save()
 
         messages.success(request, 'Platillo agregado exitosamente.')
@@ -118,6 +128,7 @@ def editar_platillo(request, id):
         if request.FILES.get('imagen'):
             platillo.imagen = request.FILES.get('imagen')  # Si se subió una nueva imagen
         platillo.descripcion = request.POST.get('descripcion')
+        platillo.precio = request.POST.get('precio')
         platillo.save()
 
         messages.success(request, 'Platillo actualizado correctamente.')
